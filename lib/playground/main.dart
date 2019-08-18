@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -12,7 +13,37 @@ void main(){
 }
 
 /// Events on the pages
-enum MyEvent{ eventLogin, eventSelfie, eventVerify, eventTransaction, eventDashboard}
+//enum MyEvent{ eventLogin, eventSelfie, eventVerify, eventTransaction, eventDashboard}
+
+class MyEvent extends Equatable{
+  MyEvent([List props = const []]) : super(props);
+}
+
+class EventLogin extends MyEvent {
+  @override
+  String toString() => 'Login';
+}
+
+class EventSelfie extends MyEvent {
+  @override
+  String toString() => 'Selfie';
+}
+
+class EventVerify extends MyEvent {
+  @override
+  String toString() => 'Verify';
+}
+
+class EventTransaction extends MyEvent {
+  @override
+  String toString() => 'Transaction';
+}
+
+class EventDashboard extends MyEvent {
+  @override
+  String toString() => 'Dashboard';
+}
+
 
 /// States
 abstract class MyState{}
@@ -35,22 +66,21 @@ class MyBloc extends Bloc<MyEvent, MyState> {
 
   @override
   Stream<MyState> mapEventToState(MyEvent event) async* {
-    switch (event){
-      case MyEvent.eventLogin:
-        yield StateLogin();
-        break;
-      case MyEvent.eventSelfie:
-        yield StateSelfie();
-        break;
-      case MyEvent.eventVerify:
-        yield StateVerify();
-        break;
-      case MyEvent.eventTransaction:
-        yield StateTransaction();
-        break;
-      case MyEvent.eventDashboard:
-        yield StateDashboard();
-        break;
+
+    if(event is EventLogin){
+      yield StateLogin();
+    }
+    if(event is EventSelfie){
+      yield StateSelfie();
+    }
+    if(event is EventVerify){
+      yield StateVerify();
+    }
+    if(event is EventTransaction){
+      yield StateTransaction();
+    }
+    if(event is EventDashboard){
+      yield StateDashboard();
     }
   }
 }
@@ -98,7 +128,7 @@ class LoginPage extends StatelessWidget {
         child: RaisedButton(
             child: Text("Selfie Screen"),
             onPressed: (){
-              BlocProvider.of<MyBloc>(context).dispatch(MyEvent.eventSelfie);
+              BlocProvider.of<MyBloc>(context).dispatch(EventSelfie());
             }
 
         ),
@@ -118,7 +148,7 @@ class SelfiePage extends StatelessWidget {
         child: RaisedButton(
             child: Text("Verify Screen"),
             onPressed: (){
-              BlocProvider.of<MyBloc>(context).dispatch(MyEvent.eventVerify);
+              BlocProvider.of<MyBloc>(context).dispatch(EventVerify());
             }
 
         ),
@@ -138,7 +168,7 @@ class VerifyPage extends StatelessWidget {
         child: RaisedButton(
             child: Text("Transaction Screen"),
             onPressed: (){
-              BlocProvider.of<MyBloc>(context).dispatch(MyEvent.eventTransaction);
+              BlocProvider.of<MyBloc>(context).dispatch(EventTransaction());
             }
 
         ),
@@ -158,7 +188,7 @@ class TransactionPage extends StatelessWidget {
         child: RaisedButton(
             child: Text("Dashboard Screen"),
             onPressed: (){
-              BlocProvider.of<MyBloc>(context).dispatch(MyEvent.eventDashboard);
+              BlocProvider.of<MyBloc>(context).dispatch(EventDashboard());
             }
 
         ),
@@ -178,7 +208,7 @@ class DashboardPage extends StatelessWidget {
         child: RaisedButton(
             child: Text("Login Screen"),
             onPressed: (){
-              BlocProvider.of<MyBloc>(context).dispatch(MyEvent.eventLogin);
+              BlocProvider.of<MyBloc>(context).dispatch(EventLogin());
             }
         ),
       ),
