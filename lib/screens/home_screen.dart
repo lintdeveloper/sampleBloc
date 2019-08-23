@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      bloc: _playerListingBloc,
+      builder: (contex)=> _playerListingBloc,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
